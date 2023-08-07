@@ -15,8 +15,6 @@ repositories {
 	mavenCentral()
 }
 
-// agregué el bootRun pero no estoy seguro si va acá o dentro del respositories{}
-
 bootRun {
 	sourceResources sourceSets.main
 }
