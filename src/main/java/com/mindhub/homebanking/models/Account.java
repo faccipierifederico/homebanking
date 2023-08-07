@@ -1,5 +1,9 @@
 package com.mindhub.homebanking.models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -8,6 +12,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="name", strategy="native")
     private Integer id;
 
     private String number;
@@ -55,6 +60,7 @@ public class Account {
         this.balance = balance;
     }
 
+    @JsonIgnore
     public Client getClient() {
         return client;
     }

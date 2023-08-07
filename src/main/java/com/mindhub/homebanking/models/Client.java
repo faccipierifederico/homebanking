@@ -1,5 +1,7 @@
 package com.mindhub.homebanking.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +11,7 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="name", strategy="native")
     private Integer id;
 
     private String firstName;
