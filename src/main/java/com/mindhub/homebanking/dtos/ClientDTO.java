@@ -33,7 +33,6 @@ public class ClientDTO {
     public Integer getId() {
         return id;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -59,6 +58,13 @@ public class ClientDTO {
         return email;
     }
 
+    public Set<AccountDTO> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<AccountDTO> accounts) {
+        this.accounts = accounts;
+    }
 }
 
 
