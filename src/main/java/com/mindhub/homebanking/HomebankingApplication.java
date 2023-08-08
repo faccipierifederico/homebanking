@@ -36,14 +36,14 @@ public class HomebankingApplication {
 
             // Melba's acccounts
 
-            Account account1 = new Account("VIN001", LocalDate.now(), 5000); // chequear el tema del local date time
+            Account account1 = new Account("VIN001", LocalDate.now(), 5000);
 			LocalDate today =  LocalDate.now();
-            Account account2 = new Account("VIN002", today.plusDays(1), 7500); // chequear el tema del local date time
+            Account account2 = new Account("VIN002", today.plusDays(1), 7500);
 
             // The others accounts
 
-            Account account3 = new Account("VIN003", LocalDate.now(), 1000); // chequear el tema del local date time
-            Account account4 = new Account("VIN004", LocalDate.now(), 3500); // chequear el tema del local date time
+            Account account3 = new Account("VIN003", LocalDate.now(), 1000);
+            Account account4 = new Account("VIN004", LocalDate.now(), 3500);
 
             // asignación de cuentas a los clientes
 
