@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class ClientDTO {
 
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -30,7 +30,7 @@ public class ClientDTO {
     // findAll().stream().map(client -> new ClientDTO(client)).collect(toList());
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

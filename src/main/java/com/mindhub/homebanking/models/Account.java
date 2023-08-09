@@ -13,9 +13,9 @@ import java.util.Set;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "name")
     @GenericGenerator(name="name", strategy="native")
-    private Integer id;
+    private Long id;
 
     private String number;
     private LocalDate creationDate;
@@ -37,7 +37,7 @@ public class Account {
         this.balance = balance;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -72,5 +72,14 @@ public class Account {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void addTransaction (Transaction transaction) {
+        transaction.setAccount(this);
+        transactions.add(transaction);
     }
 }

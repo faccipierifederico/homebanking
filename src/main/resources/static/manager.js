@@ -12,8 +12,8 @@ Vue.createApp({
         this.loadData();
     },
     methods: {
-        // loents
-        loadData() {ad and display JSON sent by server for /cli
+        // load and display JSON sent by server for /clients
+        loadData() {
             axios.get("/api/clients")
                 .then((response) => {
                     // handle success
