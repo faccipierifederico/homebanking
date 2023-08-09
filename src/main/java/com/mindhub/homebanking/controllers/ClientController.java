@@ -23,7 +23,7 @@ public class ClientController {
 
     }
     @RequestMapping("/clients/{id}")
-    public ClientDTO getClient(@PathVariable Integer id){
+    public ClientDTO getClient(@PathVariable Long id){
         return clientRepository.findById(id).map(ClientDTO::new).orElse(null);
     }
 }
