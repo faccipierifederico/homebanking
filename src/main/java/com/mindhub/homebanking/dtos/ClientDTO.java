@@ -15,6 +15,8 @@ public class ClientDTO {
     private Set<AccountDTO> accounts;
     private Set<ClientLoanDTO> loans;
 
+    private Set<CardDTO> cards;
+
     public ClientDTO(){
 
     }
@@ -25,6 +27,7 @@ public class ClientDTO {
         this.email = client.getEmail();
         this.accounts = client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toSet());
         this.loans = client.getClientLoans().stream().map(ClientLoanDTO::new).collect(Collectors.toSet());
+        this.cards = client.getCards().stream().map(CardDTO::new).collect(Collectors.toSet());
     }
 
     // el último método de arriba es igual al de abajo, sólo que el de arriba es más resumido que el 1ero. Es más bonito y más "pro" el de arriba,
@@ -55,6 +58,10 @@ public class ClientDTO {
 
     public Set<ClientLoanDTO> getLoans() {
         return loans;
+    }
+
+    public Set<CardDTO> getCards() {
+        return cards;
     }
 }
 

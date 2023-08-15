@@ -20,7 +20,7 @@ public class HomebankingApplication {
 
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository,
-                                      LoanRepository loanRepository, ClientLoanRepository clientLoanRepository){
+                                      LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return (args -> {
 
             Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
@@ -43,8 +43,7 @@ public class HomebankingApplication {
             // Melba's acccounts
 
             Account account1 = new Account("VIN001", LocalDate.now(), 5000);
-			LocalDate today =  LocalDate.now();
-            Account account2 = new Account("VIN002", today.plusDays(1), 7500);
+            Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
 
             // The others account
 
@@ -125,6 +124,29 @@ public class HomebankingApplication {
             clientLoanRepository.save(clientLoan2);
             clientLoanRepository.save(clientLoan3);
             clientLoanRepository.save(clientLoan4);
+
+            Card card1 = new Card("Melba Morel", CardType.DEBIT, CardColor.GOLD, "1987 2579 6122 9911", (short) 954, LocalDate.now(),
+                    LocalDate.now().plusYears(5));
+
+            Card card2 = new Card("Melba Morel", CardType.CREDIT, CardColor.TITANIUM, "1987 2579 6599 7744", (short) 167, LocalDate.now(),
+                    LocalDate.now().plusYears(5));
+
+            Card card3 = new Card("Ant Lager", CardType.CREDIT, CardColor.SILVER, "1987 2579 9752 5151", (short) 456, LocalDate.now(),
+                    LocalDate.now().plusYears(5));
+
+            cardRepository.save(card1);
+            cardRepository.save(card2);
+            cardRepository.save(card3);
+
+            client1.addCard(card1);
+            client1.addCard(card2);
+            client2.addCard(card3);
+
+            clientRepository.save(client1);
+            clientRepository.save(client2);
+            cardRepository.save(card1);
+            cardRepository.save(card2);
+            cardRepository.save(card3);
 
         });
 	}
