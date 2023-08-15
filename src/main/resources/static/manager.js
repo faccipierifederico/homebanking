@@ -18,7 +18,7 @@ Vue.createApp({
                 .then((response) => {
                     // handle success
                     this.outPut = response.data;
-                    this.clients = response.data._embedded.clients;
+                    this.clients = response.data;
                 })
                 .catch((error) => {
                     alert("Error loading clients: " + error)
