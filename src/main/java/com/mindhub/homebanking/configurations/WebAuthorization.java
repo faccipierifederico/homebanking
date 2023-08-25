@@ -25,9 +25,14 @@ public class WebAuthorization {
 
                 .antMatchers("/web/index.html", "/web/js/index.js", "/web/css/style.css",
                         "/web/img/favicon.ico", "/web/img/mindhub.jpg", "/web/img/Mindhub-logo.png").permitAll()
-/*                .antMatchers(HttpMethod.POST, "/api/login").permitAll()*/
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+                .antMatchers("/web/create-cards.html").hasAuthority("CLIENT")
+                .antMatchers("api/clients/current/accounts").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.GET, "/api/clients").hasAuthority("ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
+/*                .antMatchers("/h2-console").hasAuthority("ADMIN")
+                .antMatchers("/h2-console/**").hasAuthority("ADMIN")*/
                 .antMatchers("/**").hasAuthority("CLIENT");
 
         http.formLogin()
