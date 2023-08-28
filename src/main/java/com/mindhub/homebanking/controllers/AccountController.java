@@ -34,7 +34,7 @@ public class AccountController {
         return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
     }
 
-    // lo nuevo..
+    // el nuevo método..
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> register(Authentication authentication) {

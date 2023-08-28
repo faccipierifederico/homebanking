@@ -28,8 +28,8 @@ public class HomebankingApplication {
                                       LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return (args -> {
 
-            Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melbamorel123"));
-            Client client2 = new Client("Ant", "Lager", "antlager@gmail.com", passwordEncoder.encode("antlager123"));
+            Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba123"));
+            Client client2 = new Client("Ant", "Lager", "antlager@gmail.com", passwordEncoder.encode("ant123"));
 
 
             // Another way to do it:
