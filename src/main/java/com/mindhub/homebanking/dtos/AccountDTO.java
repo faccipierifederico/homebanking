@@ -44,4 +44,15 @@ public class AccountDTO {
     public Set<TransactionDTO> getTransactions() {
         return transactions;
     }
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", date=" + date +
+                ", balance=" + balance +
+                ", transactions=" + transactions +
+                '}';
+    }
 }

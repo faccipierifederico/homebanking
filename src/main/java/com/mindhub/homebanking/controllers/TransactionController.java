@@ -33,83 +33,76 @@ public class TransactionController {
 
     @Transactional
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)
-    public ResponseEntity<Object> register(Authentication authentication, @RequestParam Double amount, @RequestParam String description,
-                                           @RequestParam String accountOrigin, @RequestParam String accountDestination) {
+    public ResponseEntity<Object> register(@RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,
+                                           @RequestParam Double amount, @RequestParam String description,
+                                            Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
+        Account accountOrigin = accountRepository.findByNumber(fromAccountNumber);
+        Account accountDestination = accountRepository.findByNumber(toAccountNumber);
+
+        System.out.println(accountOrigin);
+        System.out.println(accountDestination);
 
         // Verificar que exista la cuenta de origen
-        if (!accountRepository.findbyNumber(accountOrigin).equals(accountOrigin)) {
+        if (!accountOrigin.getNumber().equals(fromAccountNumber)) {
             return new ResponseEntity<>("The account of origin does not exist.", HttpStatus.FORBIDDEN);
         }
 
         // Verificar que exista la cuenta de destino
-        if (!accountRepository.findbyNumber(accountDestination).equals(accountDestination)) {
+        if (!accountDestination.getNumber().equals(toAccountNumber)) {
             return new ResponseEntity<>("The account of destination does not exist.", HttpStatus.FORBIDDEN);
         }
 
         // Verificar que cuenta Origen y Destino no sean iguales
-        if (accountDestination.equals(accountOrigin)) {
-            return new ResponseEntity<>("The account of Origin can not be the same as the account of destination.", HttpStatus.FORBIDDEN);
+        if (toAccountNumber.equals(fromAccountNumber)) {
+            return new ResponseEntity<>("The account of origin can not be the same as the account of destination.", HttpStatus.FORBIDDEN);
         }
 
-        // Verificar que la cuenta de origen sea la del cliente autenticado. CHEQUEAR ESTO
-        if (!accountOrigin.equals(client.getAccounts())) {
-            return new ResponseEntity<>("The account of Origin must be the same as the Client who is logged in.", HttpStatus.FORBIDDEN);
+        // Verificar que la cuenta de origen sea la del cliente autenticado.
+        if (!accountOrigin.getClient().equals(client)) {
+            return new ResponseEntity<>("The account of origin must be the same as the client who is logged in.", HttpStatus.FORBIDDEN);
         }
+
         // Verificar que la cuenta de origen tenga el monto disponible
-        if (accountRepository.findbyNumber(accountOrigin).getBalance() < amount) {
+        if (accountOrigin.getBalance() < amount) {
             return new ResponseEntity<>("The balance of the account of origin must be higher than the amount of the transaction.", HttpStatus.FORBIDDEN);
         }
         // Verificar que el monto sea diferente y mayor a 0
-        if (amount <= 0) {
+        if (amount < 0) {
             return new ResponseEntity<>("The amount must be higher than 0.", HttpStatus.FORBIDDEN);
         }
-        // Verificar que la descripción sea completada
+        // Verificar que la descripción no esté vacía
         if (description.isBlank()) {
             return new ResponseEntity<>("You must write down a description.", HttpStatus.FORBIDDEN);
         }
         // Verificar que la cuenta de destino no esté vacía
-        if(accountDestination.isBlank()) {
+        if(toAccountNumber.isBlank()) {
             return new ResponseEntity<>("The account of destination can not be empty.", HttpStatus.FORBIDDEN);
         }
         // Verificar que la cuenta de origen no esté vacía
-        if (accountOrigin.isBlank()) {
-            return new ResponseEntity<>("The account of Origin can not be empty.", HttpStatus.FORBIDDEN);
+        if (fromAccountNumber.isBlank()) {
+            return new ResponseEntity<>("The account of origin can not be empty.", HttpStatus.FORBIDDEN);
         }
 
         // Crear las transacciones asociandolas a las cuentas correspondientes y por último guardarlas en el repositorio de transacciones
         LocalDateTime date = LocalDateTime.now();
 
-        Transaction transactionDebit = new Transaction(TransactionType.DEBIT, (-amount), date, description);
+        Transaction transactionDebit = new Transaction(TransactionType.DEBIT, amount, date, description);
         Transaction transactionCredit = new Transaction(TransactionType.CREDIT, amount, date, description);
 
-        accountRepository.findbyNumber(accountOrigin).addTransaction(transactionDebit);
-        accountRepository.findbyNumber(accountDestination).addTransaction(transactionCredit);
+        accountOrigin.addTransaction(transactionDebit);
+        accountDestination.addTransaction(transactionCredit);
         transactionRepository.save(transactionCredit);
         transactionRepository.save(transactionDebit);
 
         // Debes actualizar cada cuenta con los montos correspondientes y guardarlas a través del repositorio de cuentas
         // Es decir, restar el monto a la cuenta de origen y sumarlo a la cuenta de destino
 
-        double getBalanceOrigin = accountRepository.findbyNumber(accountOrigin).getBalance();
-        double getBalanceDestination = accountRepository.findbyNumber(accountDestination).getBalance();
+        accountOrigin.setBalance(accountOrigin.getBalance() - amount);
+        accountDestination.setBalance(accountDestination.getBalance() + amount);
 
-        // ¿cómo setear el nuevo balance en las cuentas?
-        // No me sale ya que si uso el setBalance() me retorna un void y debería devolver un Double.
-
-        accountRepository.findbyNumber(accountOrigin).setBalance(getBalanceOrigin - amount);
-        accountRepository.findbyNumber(accountDestination).setBalance(getBalanceDestination + amount);
-
-        // Account newAccountOrigin = new Account(accountOrigin, date, accountRepository.findbyNumber(accountOrigin).setBalance(getBalanceOrigin - amount));
-        // Account newAccountDestination = new Account(accountDestination, date,
-        //                                 accountRepository.findbyNumber(accountDestination).setBalance(getBalanceDestination + amount));
-
-        // accountRepository.save(newAccountOrigin);
-        // accountRepository.save(newAccountDestination);
-
-
-
-
+        accountRepository.save(accountOrigin);
+        accountRepository.save(accountDestination);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

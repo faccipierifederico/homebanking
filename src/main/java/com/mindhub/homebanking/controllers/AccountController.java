@@ -36,15 +36,31 @@ public class AccountController {
 
     // el nuevo método..
 
+    @RequestMapping(path = "/clients/current/accounts")
+    public ResponseEntity<Object> getAccountsClientAuth(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+        System.out.println(client);
+
+        List<AccountDTO> accountDTOS = client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
+        System.out.println(accountDTOS);
+        return new ResponseEntity<>(accountDTOS ,HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> register(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
 
-        int number1 = (int) ((Math.random() * (100000000 - 10000000)) + 10000000);
-        String number = "VIN-" + number1;
-        LocalDate creationDate = LocalDate.now();
-        double balance = 0.0;
-        Account account = new Account(number, creationDate, balance);
+        Account account = null;
+
+        do {
+            int number1 = (int) ((Math.random() * (100000000 - 10000000)) + 10000000);
+            String number = "VIN-" + number1;
+            LocalDate creationDate = LocalDate.now();
+            double balance = 0.0;
+            account = new Account(number, creationDate, balance);
+        } while (accountRepository.existsByNumber(account.getNumber()));
+
+
 
         if (client != null) {
             if (client.getAccounts().size() >= 3) {

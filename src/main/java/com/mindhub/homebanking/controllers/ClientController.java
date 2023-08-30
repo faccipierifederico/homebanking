@@ -48,13 +48,18 @@ public class ClientController {
             return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
         }
 
-        int number1 = (int) ((Math.random() * (1000000 - 100000)) + 100000);
-        String number = "VIN-" + number1;
-        LocalDate creationDate = LocalDate.now();
-        double balance = 0.0;
-        Account account = new Account(number, creationDate, balance);
-        Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        Account account = null;
 
+        do {
+            int number1 = (int) ((Math.random() * (100000000 - 10000000)) + 10000000);
+            System.out.println(number1);
+            String number = "VIN-" + number1;
+            LocalDate creationDate = LocalDate.now();
+            double balance = 0.0;
+            account = new Account(number, creationDate, balance);
+        } while (accountRepository.existsByNumber(account.getNumber()));
+
+        Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         client.addAccount(account);
         clientRepository.save(client);
         accountRepository.save(account);
