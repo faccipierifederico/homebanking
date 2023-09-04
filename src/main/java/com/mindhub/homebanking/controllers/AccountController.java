@@ -34,15 +34,11 @@ public class AccountController {
         return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
     }
 
-    // el nuevo método..
-
     @RequestMapping(path = "/clients/current/accounts")
     public ResponseEntity<Object> getAccountsClientAuth(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
-        System.out.println(client);
 
         List<AccountDTO> accountDTOS = client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
-        System.out.println(accountDTOS);
         return new ResponseEntity<>(accountDTOS ,HttpStatus.OK);
     }
 

@@ -40,8 +40,6 @@ public class TransactionController {
         Account accountOrigin = accountRepository.findByNumber(fromAccountNumber);
         Account accountDestination = accountRepository.findByNumber(toAccountNumber);
 
-        System.out.println(accountOrigin);
-        System.out.println(accountDestination);
 
         // Verificar que exista la cuenta de origen
         if (!accountOrigin.getNumber().equals(fromAccountNumber)) {
