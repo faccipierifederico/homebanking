@@ -28,17 +28,17 @@ public class HomebankingApplication {
                                       LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return (args -> {
 
-            Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba123"));
+    /*        Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba123"));
             Client client2 = new Client("Ant", "Lager", "antlager@gmail.com", passwordEncoder.encode("ant123"));
 
 
             // Another way to do it:
 
-/*          Client client2 = new Client();
+*//*          Client client2 = new Client();
             client2.setFirstName("Ant");
             client2.setLastName("Lager");
             client2.setEmail("antlager@gmail.com");
-            clientRepository.save(client2);             */
+            clientRepository.save(client2);             *//*
 
             // saving the clients on the DB
 
@@ -152,8 +152,8 @@ public class HomebankingApplication {
             cardRepository.save(card1);
             cardRepository.save(card2);
             cardRepository.save(card3);
-
+            */
         });
-	}
-
+    }
 }
+
