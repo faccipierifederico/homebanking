@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -34,14 +31,14 @@ public class LoanController {
     @Autowired
     private TransactionService transactionService;
 
-    @RequestMapping(path = "/loans")
+    @GetMapping(path = "/loans")
     public ResponseEntity<Object> getLoans() {
         List<LoanDTO> loanDTOS = loanService.getLoans();
         return new ResponseEntity<>(loanDTOS, HttpStatus.OK);
     }
 
     @Transactional
-    @RequestMapping(path = "/loans", method = RequestMethod.POST)
+    @PostMapping(path = "/loans")
     public ResponseEntity<Object> addLoan(Authentication authentication, @RequestBody LoanApplicationDTO loanApplication) {
         Client client = clientService.findByEmail(authentication.getName());
         Account accountDestination = accountService.findByNumber(loanApplication.getToAccountNumber());

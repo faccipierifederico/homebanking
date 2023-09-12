@@ -24,17 +24,17 @@ public class AccountController {
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping("/accounts")
+    @GetMapping("/accounts")
     public List<AccountDTO> getAccounts() {
         return accountService.getAccountsDTO();
     }
 
-    @RequestMapping("/accounts/{id}")
+    @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id){
         return accountService.getAccountDTO(id);
     }
 
-    @RequestMapping(path = "/clients/current/accounts")
+    @GetMapping(path = "/clients/current/accounts")
     public ResponseEntity<Object> getAccountsClientAuth(Authentication authentication) {
         Client client = clientService.findByEmail(authentication.getName());
 
@@ -42,7 +42,7 @@ public class AccountController {
         return new ResponseEntity<>(accountDTOS ,HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
+    @PostMapping(path = "/clients/current/accounts")
     public ResponseEntity<Object> register(Authentication authentication) {
 
         Client client = clientService.findByEmail(authentication.getName());
