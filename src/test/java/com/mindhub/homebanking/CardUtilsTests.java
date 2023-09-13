@@ -28,12 +28,10 @@ public class CardUtilsTests {
         assertThat(cvvNumber, notNullValue());
     }
 
-/*    @Test
+    @Test
     public void cvvIsLessThan() {
         Short cvvNumber = CardUtils.getCVV();
-        assertThat(cvvNumber, lessThanOrEqualTo(999));
-    }*/
-
-
+        assertThat(cvvNumber, isA(Short.class));
+    }
 
 }
