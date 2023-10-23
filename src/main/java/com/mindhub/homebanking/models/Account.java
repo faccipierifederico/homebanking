@@ -6,14 +6,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "name")
     @GenericGenerator(name="name", strategy="native")
-    private Integer id;
+    private Long id;
 
     private String number;
     private LocalDate creationDate;
@@ -22,6 +24,9 @@ public class Account {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
+
+    @OneToMany(mappedBy="account", fetch= FetchType.EAGER)
+    Set<Transaction> transactions = new HashSet<>();
 
     public Account() {
     }
@@ -32,7 +37,7 @@ public class Account {
         this.balance = balance;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -67,5 +72,14 @@ public class Account {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void addTransaction (Transaction transaction) {
+        transaction.setAccount(this);
+        transactions.add(transaction);
     }
 }
