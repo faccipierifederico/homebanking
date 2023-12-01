@@ -9,10 +9,13 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     <title>Loans Applications</title>
 </head>
 
-<body>
+<body class="index-body">
     <div id="app">
         <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
             <div id="danger-toast" data-bs-delay="2000" class="toast align-items-center text-white bg-danger border-0"
@@ -26,9 +29,9 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container w-100">
             <div class="row mt-5">
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-2 mx-4">
                     <div class="">
                         <a href="/web/accounts.html"
                             class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -56,7 +59,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/web/loan-application.html" class="nav-link active">
+                                <a href="/web/loan-application.html" class="nav-link text-info active">
                                     <i class="bi bi-cash"></i>
                                     Loans
                                 </a>
@@ -70,33 +73,33 @@
                 </div>
                 <div class="col offset-md-1">
                     <div class="row mt-3">
-                        <div class="col-10">
-                            <h2 class="display-6 subtitle">Loan application</h2>
-                            <form class="mt-4">
+                        <div class="col-12 w-100">
+                            <h2 class="display-6 subtitle h2-accounts pr-3">Loan aplication</h2>
+                            <form class="mt-5">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <label for="type" class="form-label">Loan types</label>
+                                        <label for="type" class="form-label text-white">Loan types</label>
                                         <select id="type" v-model="loanTypeId" v-on:change="changedType"
-                                            class="form-select" aria-label="Default select example" required>
+                                            class="form-select bg-dark text-info border-0" aria-label="Default select example" required>
                                             <option value="0">Open this select menu</option>
                                             <option v-for="loanType in loanTypes" v-bind:value="loanType.id">{{
                                                 loanType.name }} | max amount: {{ loanType.maxAmount }}</option>
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label for="payments" class="form-label">Payments</label>
-                                        <select id="payments" v-model="payments" class="form-select"
+                                        <label for="payments" class="form-label text-white">Payments</label>
+                                        <select id="payments" v-model="payments" class="form-select bg-dark text-info border-0"
                                             aria-label="Default select example" required>
-                                            <option value="0">Open this select menu</option>
+                                            <option value="0">Open this menu</option>
                                             <option v-for="payment in paymentsList" v-bind:value="payment">{{ payment }}
                                             </option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-5">
-                                        <label for="to-account" class="form-label">To account</label>
-                                        <select id="to-account" v-model="accountToNumber" class="form-select"
+                                <div class="row mt-3 w-100">
+                                    <div class="col-md-12 w-100">
+                                        <label for="to-account" class="form-label text-white">To account</label>
+                                        <select id="to-account" v-model="accountToNumber" class="form-select bg-dark text-info border-0"
                                             aria-label="Default select example" required>
                                             <option value="VIN">Open this select menu</option>
                                             <option v-for="account in clientAccounts" v-bind:value="account.number">{{
@@ -104,18 +107,18 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label for="amount" class="form-label">Amount</label>
-                                        <input id="amount" v-model="amount" type="number" class="form-control"
+                                        <label for="amount" class="form-label text-white">Amount</label>
+                                        <input id="amount" v-model="amount" type="number" class="form-control bg-dark text-info border-0"
                                             placeholder="VIN000554" aria-label="to account">
                                     </div>
                                     <div class="col">
-                                        <label class="form-label">Fees</label>
+                                        <label class="form-label text-white">Fees</label>
                                         <div><button type="button" v-on:click="checkFees"
-                                                class="btn btn-sm btn-primary mt-1">See fees</button></div>
+                                                class="btn btn-sm btn-dark text-secondary px-3 py-1 fs-6">See fees</button></div>
                                     </div>
                                 </div>
                                 <button type="button" v-on:click="checkApplication"
-                                    class="btn btn-sm btn-success mt-4">Apply</button>
+                                class="btn btn-sm btn-info text-dark mt-4 px-5 py-2 fs-6">Apply for loan</button>
                             </form>
                         </div>
                     </div>

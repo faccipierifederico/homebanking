@@ -9,6 +9,9 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     <title>Mindhub Bank</title>
 </head>
 
@@ -29,75 +32,74 @@
         <div class="container index-container">
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-10">
-                    <div class="wrap d-md-flex justify-content-center bg-light shadow border-0 rounded-5">
+                    <div class="wrap d-md-flex justify-content-around bg-dark shadow border-0">
                         <div
-                            class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last welcome shadow-sm rounded-5">
-                            <div class="text w-100">
-                                <img class="welcome-logo" src="img/Mindhub-logo.png">
-                                <h2>Welcome to MindHub Bank</h2>
-                                <div v-if="showSignUp" class="form-group">
-                                    <a v-on:click="showSignUpToogle" href="#" class="btn btn-light my-2"><small>Sign
-                                            In</small></a>
+                            class="text-wrap p-4 p-lg-5 text-center d-flex align-items-end order-md-last"> 
+                            <div class="text">
+                                <!-- <img class="welcome-logo" src="img/Mindhub-logo.png">  welcome shadow-sm-->
+                                <h2 class="text-white">Welcome to the Homebanking Application of the MindHub Bank</h2>
+                                <div v-if="showSignUp" class="form-group pt-5 mt-5">
+                                    <a v-on:click="showSignUpToogle" href="#" class="btn btn-info text-black px-3 mt-5s my-2 w-50"><small>Sign In</small></a>
                                 </div>
-                                <template v-if="!showSignUp">
-                                    <p>Don't have an account?</p>
-                                    <button v-on:click="showSignUpToogle" class="btn btn-light">Sign Up</button>
+                                <template v-if="!showSignUp" class="mt-3">
+                                    <p class="text-secondary mt-5">Don't have an account? Create one!</p>
+                                    <button v-on:click="showSignUpToogle" class="btn btn-info text-black">Sign Up</button>
 
                                 </template>
                             </div>
                         </div>
-                        <div class="login-wrap p-4 p-lg-5">
+                        <div class="login-wrap p-4 p-lg-5 w-100">
                             <template v-if="!showSignUp">
                                 <div class="d-flex">
-                                    <div class="w-100">
-                                        <h3 class="mb-4">Sign In</h3>
+                                    <div class="w-100 text-center">
+                                        <h3 class="mb-4 text-info">Sign in</h3>
                                     </div>
                                 </div>
                                 <form action="#" class="signin-form" v-on:submit="signIn($event)">
-                                    <div class="form-group mb-3">
-                                        <label class="label" for="email">Email</label>
+                                    <div class="form-group mb-3 text-center">
+                                        <label class="label text-info p-1 mt-3" for="email"></label>
                                         <input v-model="email" id="email" type="email" class="form-control"
                                             placeholder="email@mail.com" required>
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <label class="label" for="password">Password</label>
+                                    <div class="form-group mb-3 text-center">
+                                        <label class="label text-info p-1 mt-3" for="password"></label>
                                         <input v-model="password" id="password" type="password" class="form-control"
                                             placeholder="Password" required autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="form-control btn btn-primary px-3">Sign In</button>
+                                        <button type="submit" class="form-control btn btn-info text-black px-3 mt-4">Sign In</button>
                                     </div>
                                 </form>
                             </template>
                             <template v-else>
                                 <div class="d-flex">
-                                    <div class="w-100">
-                                        <h3 class="mb-4">Sign Up</h3>
+                                    <div class="w-100 text-center">
+                                        <h3 class="mb-4 text-info">Sign up</h3>
                                     </div>
                                 </div>
                                 <form action="#" class="signout-form" v-on:submit="signUp($event)">
                                     <div class="form-group mb-3">
-                                        <label class="label" for="firstName">First name</label>
+                                        <label class="label" for="firstName"></label>
                                         <input v-model="firstName" id="firstName" type="text" class="form-control"
-                                            placeholder="Juan" required>
+                                            placeholder="First Name" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label class="lastName" for="lastName">Last name</label>
+                                        <label class="lastName" for="lastName"></label>
                                         <input v-model="lastName" id="lastName" type="text" class="form-control"
-                                            placeholder="Martinez" required>
+                                            placeholder="Last Name" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label class="label" for="remail">Email</label>
+                                        <label class="label" for="remail"></label>
                                         <input v-model="email" id="remail" type="remail" class="form-control"
                                             placeholder="email@mail.com" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label class="label" for="rpassword">Password</label>
+                                        <label class="label" for="rpassword"></label>
                                         <input v-model="password" id="rpassword" type="password" class="form-control"
                                             placeholder="Password" required autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="form-control btn btn-primary px-3">Sign Up</button>
+                                        <button type="submit" class="form-control btn btn-info text-black px-3 mt-4">Sign Up</button>
                                     </div>
                                 </form>
                             </template>

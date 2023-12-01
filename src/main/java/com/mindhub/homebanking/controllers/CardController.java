@@ -3,14 +3,12 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -28,7 +26,7 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
-    @RequestMapping(path = "clients/current/cards", method = RequestMethod.POST)
+    @PostMapping(path = "clients/current/cards")
     public ResponseEntity<Object> register(Authentication authentication, @RequestParam CardType cardType, @RequestParam CardColor cardColor) {
         Client client = clientService.findByEmail(authentication.getName());
 
@@ -51,14 +49,11 @@ public class CardController {
             return new ResponseEntity<>("You already have 3 or more of this type (" + cardType + ") of cards.", HttpStatus.FORBIDDEN);
         }
 
-        int number1 = (int) ((Math.random() * (10000 - 1000)) + 1000);
-        int number2 = (int) ((Math.random() * (10000 - 1000)) + 1000);
-        int number3 = (int) ((Math.random() * (10000 - 1000)) + 1000);
-        int number4 = (int) ((Math.random() * (10000 - 1000)) + 1000);
+        String number = CardUtils.getCardNumber();
+
+        Short cvv = CardUtils.getCVV();
 
         String cardHolder = client.getLastName() + " " + client.getFirstName();
-        String number = number1 + "-" + number2 + "-" + number3 + "-" + number4;
-        Short cvv = (short) ((Math.random() * (1000 - 100)) + 100);
         LocalDate thruDate = LocalDate.now();
         LocalDate fromDate = LocalDate.now().plusYears(5);
 
@@ -70,4 +65,5 @@ public class CardController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
+
 }

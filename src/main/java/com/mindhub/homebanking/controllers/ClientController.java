@@ -27,17 +27,17 @@ public class ClientController {
     @Autowired
     private AccountService accountService;
 
-    @RequestMapping("/clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getClients() {
         return clientService.getClientsDTO();
     }
 
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getClient(Authentication authentication){
         return clientService.getClientDTO(authentication.getName());
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping(path = "/clients")
     public ResponseEntity<Object> register(
 
             @RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password) {

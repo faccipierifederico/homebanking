@@ -1,14 +1,19 @@
 * {
     margin: 0px;
     padding: 0px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Quicksand', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
 }
 
-.account {
-    background: linear-gradient(45deg, #ee0979, #ff6a00);
-    color: white;
+/* .account {
+    background-color: #99582a;
+    color: black;
     box-shadow: 1px 1px 5px black;
+} */
+
+.account {
+    background-color: antiquewhite;
+    color: black;
 }
 
 .account:hover {
@@ -16,7 +21,7 @@
 }
 
 .account-details-header {
-    background: linear-gradient(45deg, #ee0979, #ff6a00);
+    background-color: #99582a;
     color: white;
 }
 
@@ -45,9 +50,15 @@
     color: red;
 }
 
+/* .loan {
+    background-color: #99582a;
+    color: black;
+    box-shadow: 1px 1px 5px black;
+} */
+
 .loan {
-    background: linear-gradient(45deg, #ee09cf, #0026ff);
-    color: white;
+    background-color: antiquewhite;
+    color: black;
 }
 
 .menu-logo {
@@ -64,7 +75,7 @@
 }
 
 .index-body {
-    background-image: url(../img/mindhub.jpg);
+    background-image: linear-gradient(to bottom, rgba(1, 53, 53, 0.73), rgba(2, 104, 104, 0.73)), url(../img/mindhub.jpg);
     background-size: cover;
     background-attachment: fixed;
 }
@@ -75,4 +86,20 @@
 
 .rounded-5 {
     border-radius: 10px;
+}
+
+.placeholder-description::placeholder{
+    color: rgb(2, 199, 199);
+}
+
+.h1-name{
+    font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    color: #bb9457;
+}
+
+.h2-accounts{
+    font-family: 'Kanit', sans-serif;
+    font-weight: 300;
+    color: #bb9457;
 }
