@@ -3,8 +3,8 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +21,21 @@ import java.util.stream.Collectors;
 public class ClientController {
 
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private AccountRepository accountRepository;
+    private ClientService clientService;
+    @Autowired
+    private AccountService accountService;
+
+    @RequestMapping("/clients")
+    public List<ClientDTO> getClients() {
+        return clientService.getClientsDTO();
+    }
+
+    @RequestMapping("/clients/current")
+    public ClientDTO getClient(Authentication authentication){
+        return clientService.getClientDTO(authentication.getName());
+    }
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
     public ResponseEntity<Object> register(
@@ -44,7 +54,7 @@ public class ClientController {
         if (password.isEmpty()) {
             return new ResponseEntity<>("You must write down a password", HttpStatus.FORBIDDEN);
         }
-        if (clientRepository.findByEmail(email) != null) {
+        if (clientService.findByEmail(email) != null) {
             return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
         }
 
@@ -57,24 +67,14 @@ public class ClientController {
             LocalDate creationDate = LocalDate.now();
             double balance = 0.0;
             account = new Account(number, creationDate, balance);
-        } while (accountRepository.existsByNumber(account.getNumber()));
+        } while (accountService.existsByNumber(account.getNumber()));
 
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         client.addAccount(account);
-        clientRepository.save(client);
-        accountRepository.save(account);
+        clientService.saveClient(client);
+        accountService.saveAccount(account);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @RequestMapping("/clients")
-    public List<ClientDTO> getClients() {
-        return clientRepository.findAll().stream().map(ClientDTO::new).collect(Collectors.toList());
-    }
-
-    @RequestMapping("/clients/current")
-    public ClientDTO getClient(Authentication authentication){
-        return new ClientDTO(clientRepository.findByEmail(authentication.getName()));
     }
 
 }

@@ -94,9 +94,9 @@ public class HomebankingApplication {
 
             // Creating the transactions
 
-            Loan loan1 = new Loan("Mortgage", 500000, List.of(12, 24, 36, 48, 60));
-            Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
-            Loan loan3 = new Loan("Automotive", 300000, List.of(6, 12, 24, 36));
+            Loan loan1 = new Loan("Mortgage", 500000.00, List.of(12, 24, 36, 48, 60));
+            Loan loan2 = new Loan("Personal", 100000.00, List.of(6, 12, 24));
+            Loan loan3 = new Loan("Automotive", 300000.00, List.of(6, 12, 24, 36));
 
             // Saving the loans into the DB
 
@@ -106,10 +106,10 @@ public class HomebankingApplication {
 
             // Creating the ClientLoans
 
-            ClientLoan clientLoan1 = new ClientLoan(400000, 60);
-            ClientLoan clientLoan2 = new ClientLoan(50000, 12);
-            ClientLoan clientLoan3 = new ClientLoan(100000, 24);
-            ClientLoan clientLoan4 = new ClientLoan(200000, 36);
+            ClientLoan clientLoan1 = new ClientLoan(400000.00, 60);
+            ClientLoan clientLoan2 = new ClientLoan(50000.00, 12);
+            ClientLoan clientLoan3 = new ClientLoan(100000.00, 24);
+            ClientLoan clientLoan4 = new ClientLoan(200000.00, 36);
 
             client1.addClientLoan(clientLoan1);
             client1.addClientLoan(clientLoan2);

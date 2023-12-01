@@ -4,9 +4,9 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,25 +23,21 @@ import java.time.LocalDateTime;
 public class TransactionController {
 
     @Autowired
-    ClientRepository clientRepository;
-
+    private ClientService clientService;
     @Autowired
-    AccountRepository accountRepository;
-
+    private AccountService accountService;
     @Autowired
-    TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @Transactional
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Object> register(@RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,
                                            @RequestParam Double amount, @RequestParam String description,
-                                            Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());
-        Account accountOrigin = accountRepository.findByNumber(fromAccountNumber);
-        Account accountDestination = accountRepository.findByNumber(toAccountNumber);
+                                           Authentication authentication) {
+        Client client = clientService.findByEmail(authentication.getName());
+        Account accountOrigin = accountService.findByNumber(fromAccountNumber);
+        Account accountDestination = accountService.findByNumber(toAccountNumber);
 
-        System.out.println(accountOrigin);
-        System.out.println(accountDestination);
 
         // Verificar que exista la cuenta de origen
         if (!accountOrigin.getNumber().equals(fromAccountNumber)) {
@@ -92,8 +88,8 @@ public class TransactionController {
 
         accountOrigin.addTransaction(transactionDebit);
         accountDestination.addTransaction(transactionCredit);
-        transactionRepository.save(transactionCredit);
-        transactionRepository.save(transactionDebit);
+        transactionService.saveTransaction(transactionCredit);
+        transactionService.saveTransaction(transactionDebit);
 
         // Debes actualizar cada cuenta con los montos correspondientes y guardarlas a través del repositorio de cuentas
         // Es decir, restar el monto a la cuenta de origen y sumarlo a la cuenta de destino
@@ -101,8 +97,8 @@ public class TransactionController {
         accountOrigin.setBalance(accountOrigin.getBalance() - amount);
         accountDestination.setBalance(accountDestination.getBalance() + amount);
 
-        accountRepository.save(accountOrigin);
-        accountRepository.save(accountDestination);
+        accountService.saveAccount(accountOrigin);
+        accountService.saveAccount(accountDestination);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
